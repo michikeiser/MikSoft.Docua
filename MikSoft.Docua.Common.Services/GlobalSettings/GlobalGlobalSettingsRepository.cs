@@ -6,11 +6,8 @@
 
     public class GlobalGlobalSettingsRepository : IGlobalSettingsRepository
     {
-        private readonly IGlobalSettingsPersistenceService _globalSettingsPersistenceService;
-
-        public GlobalGlobalSettingsRepository(IGlobalSettingsPersistenceService globalSettingsPersistenceService)
+        public GlobalGlobalSettingsRepository()
         {
-            _globalSettingsPersistenceService = globalSettingsPersistenceService;
         }
 
         public string Get(string key)
