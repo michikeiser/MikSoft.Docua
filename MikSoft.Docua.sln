@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{901229B9-EDD8-4401-858E-0D27DBDCA59A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{F964643D-BB68-47DC-ADEB-56AC9BFA3EFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{8AE664EB-329B-4A54-AA01-6B244C7C85C9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MikSoft.Docua.Client", "MikSoft.Docua.Client\MikSoft.Docua.Client.csproj", "{7E475A11-0DAA-45DC-9EA3-A65599D729B5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MikSoft.Docua.Common", "MikSoft.Docua.Common\MikSoft.Docua.Common.csproj", "{6705B775-2082-465F-B854-C398205A0937}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MikSoft.Docua.Client.UnitTests", "MikSoft.Docua.Client.UnitTests\MikSoft.Docua.Client.UnitTests.csproj", "{47B776CC-4DAB-4882-8FAE-2A4B58B72490}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MikSoft.Docua.Common.UnitTests", "MikSoft.Docua.Common.UnitTests\MikSoft.Docua.Common.UnitTests.csproj", "{62E68257-8B40-4073-ACF0-F164B1E3AD7A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E475A11-0DAA-45DC-9EA3-A65599D729B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E475A11-0DAA-45DC-9EA3-A65599D729B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E475A11-0DAA-45DC-9EA3-A65599D729B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E475A11-0DAA-45DC-9EA3-A65599D729B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6705B775-2082-465F-B854-C398205A0937}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6705B775-2082-465F-B854-C398205A0937}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6705B775-2082-465F-B854-C398205A0937}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6705B775-2082-465F-B854-C398205A0937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47B776CC-4DAB-4882-8FAE-2A4B58B72490}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47B776CC-4DAB-4882-8FAE-2A4B58B72490}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47B776CC-4DAB-4882-8FAE-2A4B58B72490}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47B776CC-4DAB-4882-8FAE-2A4B58B72490}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62E68257-8B40-4073-ACF0-F164B1E3AD7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62E68257-8B40-4073-ACF0-F164B1E3AD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62E68257-8B40-4073-ACF0-F164B1E3AD7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62E68257-8B40-4073-ACF0-F164B1E3AD7A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7E475A11-0DAA-45DC-9EA3-A65599D729B5} = {901229B9-EDD8-4401-858E-0D27DBDCA59A}
+		{6705B775-2082-465F-B854-C398205A0937} = {8AE664EB-329B-4A54-AA01-6B244C7C85C9}
+		{47B776CC-4DAB-4882-8FAE-2A4B58B72490} = {901229B9-EDD8-4401-858E-0D27DBDCA59A}
+		{62E68257-8B40-4073-ACF0-F164B1E3AD7A} = {8AE664EB-329B-4A54-AA01-6B244C7C85C9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {81A2436C-033F-4964-B734-F5C7853517A7}
+	EndGlobalSection
+EndGlobal
