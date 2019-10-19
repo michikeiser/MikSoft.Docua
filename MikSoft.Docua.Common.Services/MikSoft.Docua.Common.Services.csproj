@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MikSoft.Docua.Common.Data\MikSoft.Docua.Common.Data.csproj" />
+    <ProjectReference Include="..\MikSoft.Docua.Common\MikSoft.Docua.Common.csproj" />
+  </ItemGroup>
+
+</Project>

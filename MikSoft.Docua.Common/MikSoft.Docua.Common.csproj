@@ -5,9 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Metadata\" />
-    <Folder Include="Document\" />
-    <Folder Include="Ocr\" />
+    <PackageReference Include="DryIoc.dll" Version="4.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestWrappers\" />
   </ItemGroup>
 
 </Project>

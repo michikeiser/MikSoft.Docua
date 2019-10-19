@@ -14,9 +14,12 @@
     <Folder Include="Models\" />
     <Folder Include="Converters\" />
     <Folder Include="Behaviors\" />
-    <Folder Include="Services\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MikSoft.Docua.Common.Data\MikSoft.Docua.Common.Data.csproj" />
+    <ProjectReference Include="..\MikSoft.Docua.Common.Services\MikSoft.Docua.Common.Services.csproj" />
+    <ProjectReference Include="..\MikSoft.Docua.Common\MikSoft.Docua.Common.csproj" />
   </ItemGroup>
 
 </Project>
