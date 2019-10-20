@@ -2,11 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
 
     using MikSoft.Docua.Common.Data.FileSystem.Helper;
     using MikSoft.Docua.Common.Data.FileSystem.UserSettings.XmlNodes;
+    using MikSoft.Docua.Common.TestWrappers;
 
     internal class UserSettingsPersistenceService : IUserSettingsPersistenceService
     {
@@ -22,16 +22,29 @@
         {
             _xmlSerializerHelper = xmlSerializerHelper;
             _userSettingConverter = userSettingConverter;
+
+            FileTestWrapper = new FileTestWrapper();
+            DirectoryTestWrapper = new DirectoryTestWrapper();
+            PathTestWrapper = new PathTestWrapper();
+            EnvironmentTestWrapper = new EnvironmentTestWrapper();
         }
+
+        internal FileTestWrapper FileTestWrapper { get; set; }
+
+        internal DirectoryTestWrapper DirectoryTestWrapper { get; set; }
+
+        internal PathTestWrapper PathTestWrapper { get; set; }
+
+        internal EnvironmentTestWrapper EnvironmentTestWrapper { get; set; }
 
         public IEnumerable<UserSettingsEntry> Load()
         {
             var userSettingsPath = GetUserSettingsPath();
             var userSettingsFilePath = GetUserSettingsFilePath(userSettingsPath);
 
-            if (File.Exists(userSettingsFilePath))
+            if (FileTestWrapper.Exists(userSettingsFilePath))
             {
-                var content = File.ReadAllText(userSettingsFilePath);
+                var content = FileTestWrapper.ReadAllText(userSettingsFilePath);
                 var userSettings = _xmlSerializerHelper.GetObject<DocuaUserSettingItems>(content);
 
                 var settingsEntries = _userSettingConverter.ToSettingsEntries(userSettings.UserSettingItems).ToList();
@@ -45,9 +58,9 @@
         {
             var userSettingsPath = GetUserSettingsPath();
 
-            if (!Directory.Exists(userSettingsPath))
+            if (!DirectoryTestWrapper.Exists(userSettingsPath))
             {
-                Directory.CreateDirectory(userSettingsPath);
+                DirectoryTestWrapper.CreateDirectory(userSettingsPath);
             }
 
             var docuaUserSettings = _userSettingConverter.ToDocuaSettings(payload).ToList();
@@ -59,20 +72,20 @@
             var str = _xmlSerializerHelper.GetString(docuaUserSettingItems);
 
             var userSettingsFilePath = GetUserSettingsFilePath(userSettingsPath);
-            File.WriteAllText(userSettingsFilePath, str);
+            FileTestWrapper.WriteAllText(userSettingsFilePath, str);
         }
 
         private string GetUserSettingsPath()
         {
-            var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            var userSettingsPath = Path.Combine(appDataPath, PATH);
+            var appDataPath = EnvironmentTestWrapper.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var userSettingsPath = PathTestWrapper.Combine(appDataPath, PATH);
 
             return userSettingsPath;
         }
 
         private string GetUserSettingsFilePath(string userSettingsPath)
         {
-            var path = Path.Combine(userSettingsPath, USER_SETTING_FILE);
+            var path = PathTestWrapper.Combine(userSettingsPath, USER_SETTING_FILE);
             return path;
         }
     }

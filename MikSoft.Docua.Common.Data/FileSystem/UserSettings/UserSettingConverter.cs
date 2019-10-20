@@ -6,7 +6,7 @@
 
     internal class UserSettingConverter
     {
-        public IEnumerable<UserSettingsEntry> ToSettingsEntries(IEnumerable<DocuaUserSetting> userSettings)
+        public virtual IEnumerable<UserSettingsEntry> ToSettingsEntries(IEnumerable<DocuaUserSetting> userSettings)
         {
             foreach (var userSetting in userSettings)
             {
@@ -18,7 +18,7 @@
             }
         }
 
-        public IEnumerable<DocuaUserSetting> ToDocuaSettings(IEnumerable<UserSettingsEntry> settingsEntries)
+        public virtual IEnumerable<DocuaUserSetting> ToDocuaSettings(IEnumerable<UserSettingsEntry> settingsEntries)
         {
             foreach (var settingsEntry in settingsEntries)
             {
