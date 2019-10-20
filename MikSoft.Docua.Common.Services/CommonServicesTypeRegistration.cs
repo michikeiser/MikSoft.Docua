@@ -14,7 +14,7 @@
         public void Load(IRegistrator registrator)
         {
             registrator.Register<IUserSettingsRepository, UserSettingsRepository>();
-            registrator.Register<IGlobalSettingsRepository, GlobalGlobalSettingsRepository>();
+            registrator.Register<IGlobalSettingsRepository, GlobalSettingsRepository>();
         }
     }
 }

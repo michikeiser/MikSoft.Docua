@@ -17,4 +17,12 @@
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="FileSystem\GlobalSettings\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MikSoft.Docua.Common.Data\MikSoft.Docua.Common.Data.csproj" />
+  </ItemGroup>
+
 </Project>
