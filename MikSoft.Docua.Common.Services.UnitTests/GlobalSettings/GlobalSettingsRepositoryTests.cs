@@ -80,7 +80,8 @@
 
             // assert
             A.CallTo(
-                    () => persistenceServiceMock.Save(path,
+                    () => persistenceServiceMock.Save(
+                        path,
                         A<List<GlobalSettingsEntry>>.That.Matches(x => x.Single(y => y.Key == key && y.Value == value) != null)))
                 .MustHaveHappenedOnceExactly();
         }

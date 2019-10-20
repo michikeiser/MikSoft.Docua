@@ -50,7 +50,7 @@
                 Directory.CreateDirectory(userSettingsPath);
             }
 
-            var docuaUserSettings = _userSettingConverter.ToDocuaUserSettings(payload).ToList();
+            var docuaUserSettings = _userSettingConverter.ToDocuaSettings(payload).ToList();
             var docuaUserSettingItems = new DocuaUserSettingItems
                                             {
                                                 UserSettingItems = docuaUserSettings
