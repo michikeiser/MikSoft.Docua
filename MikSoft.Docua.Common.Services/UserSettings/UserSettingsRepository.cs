@@ -2,8 +2,7 @@
 {
     using System.Linq;
 
-    using MikSoft.Docua.Common.Interfaces;
-    using MikSoft.Docua.Common.Models;
+    using MikSoft.Docua.Common.Data.FileSystem.UserSettings;
 
     public class UserSettingsRepository : IUserSettingsRepository
     {
@@ -29,7 +28,7 @@
             if (settingsEntry == null)
             {
                 settingsEntries.Add(
-                    new SettingsEntry
+                    new UserSettingsEntry
                         {
                             Key = key,
                             Value = value

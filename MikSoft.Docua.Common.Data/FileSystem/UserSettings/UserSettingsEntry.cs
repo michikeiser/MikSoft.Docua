@@ -1,6 +1,6 @@
-﻿namespace MikSoft.Docua.Common.Models
+﻿namespace MikSoft.Docua.Common.Data.FileSystem.UserSettings
 {
-    public class SettingsEntry
+    public class UserSettingsEntry
     {
         public string Key { get; set; }
 

@@ -3,17 +3,14 @@
     using System;
     using System.Collections.Generic;
 
-    using MikSoft.Docua.Common.Interfaces;
-    using MikSoft.Docua.Common.Models;
-
     public class GlobalSettingsPersistenceService : IGlobalSettingsPersistenceService
     {
-        public IEnumerable<SettingsEntry> Load(string path)
+        public IEnumerable<GlobalSettingsEntry> Load(string path)
         {
             throw new NotImplementedException();
         }
 
-        public void Save(string path, IEnumerable<SettingsEntry> payload)
+        public void Save(string path, IEnumerable<GlobalSettingsEntry> payload)
         {
             throw new NotImplementedException();
         }

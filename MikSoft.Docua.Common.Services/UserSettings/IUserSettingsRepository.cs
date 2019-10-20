@@ -1,4 +1,4 @@
-﻿namespace MikSoft.Docua.Common.Interfaces
+﻿namespace MikSoft.Docua.Common.Services.UserSettings
 {
     public interface IUserSettingsRepository
     {

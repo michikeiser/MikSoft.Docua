@@ -1,6 +1,5 @@
 ﻿namespace MikSoft.Docua.Client.Services
 {
-    using MikSoft.Docua.Common.Interfaces;
     using MikSoft.Docua.Common.Services.UserSettings;
 
     internal class SettingsService

@@ -7,8 +7,7 @@
 
     using FakeItEasy;
 
-    using MikSoft.Docua.Common.Interfaces;
-    using MikSoft.Docua.Common.Models;
+    using MikSoft.Docua.Common.Data.FileSystem.UserSettings;
     using MikSoft.Docua.Common.Services.UserSettings;
 
     using NUnit.Framework;
@@ -17,7 +16,7 @@
     internal class UserSettingsRepositoryTests
     {
         [Test, AutoData]
-        public void AddAndSave_ExistingSetting_Save(IEnumerable<SettingsEntry> sampleData)
+        public void AddAndSave_ExistingSetting_Save(IEnumerable<UserSettingsEntry> sampleData)
         {
             // arrange
             var userSettingsPersistenceServiceMock = A.Fake<IUserSettingsPersistenceService>();
@@ -31,10 +30,9 @@
 
             // assert
             A.CallTo(
-                    () => userSettingsPersistenceServiceMock.Save(
-                        A<List<SettingsEntry>>.That.Matches(
-                            x => x.Single(y => y.Key == settingsEntry.Key && y.Value == settingsEntry.Value) != null)))
-                .MustHaveHappenedOnceExactly();
+                () => userSettingsPersistenceServiceMock.Save(
+                    A<List<UserSettingsEntry>>.That.Matches(
+                        x => x.Single(y => y.Key == settingsEntry.Key && y.Value == settingsEntry.Value) != null))).MustHaveHappenedOnceExactly();
         }
 
         [Test, AutoData]
@@ -42,7 +40,7 @@
         {
             // arrange
             var userSettingsPersistenceServiceMock = A.Fake<IUserSettingsPersistenceService>();
-            A.CallTo(() => userSettingsPersistenceServiceMock.Load()).Returns(new List<SettingsEntry>());
+            A.CallTo(() => userSettingsPersistenceServiceMock.Load()).Returns(new List<UserSettingsEntry>());
 
             var sut = new UserSettingsRepository(userSettingsPersistenceServiceMock);
 
@@ -51,10 +49,9 @@
 
             // assert
             A.CallTo(
-                    () => userSettingsPersistenceServiceMock.Save(
-                        A<List<SettingsEntry>>.That.Matches(
-                            x => x.Single(y => y.Key == "NOT_EXISTING_KEY" && y.Value == "NOT_EXISTING_VALUE") != null)))
-                .MustHaveHappenedOnceExactly();
+                () => userSettingsPersistenceServiceMock.Save(
+                    A<List<UserSettingsEntry>>.That.Matches(
+                        x => x.Single(y => y.Key == "NOT_EXISTING_KEY" && y.Value == "NOT_EXISTING_VALUE") != null))).MustHaveHappenedOnceExactly();
         }
 
         [Test, AutoData]
@@ -62,7 +59,7 @@
         {
             // arrange
             var userSettingsPersistenceServiceMock = A.Fake<IUserSettingsPersistenceService>();
-            A.CallTo(() => userSettingsPersistenceServiceMock.Load()).Returns(new List<SettingsEntry>());
+            A.CallTo(() => userSettingsPersistenceServiceMock.Load()).Returns(new List<UserSettingsEntry>());
 
             var sut = new UserSettingsRepository(userSettingsPersistenceServiceMock);
 
@@ -71,12 +68,13 @@
 
             // assert
             A.CallTo(
-                () => userSettingsPersistenceServiceMock.Save(
-                    A<List<SettingsEntry>>.That.Matches(x => x.Single(y => y.Key == key && y.Value == value) != null))).MustHaveHappenedOnceExactly();
+                    () => userSettingsPersistenceServiceMock.Save(
+                        A<List<UserSettingsEntry>>.That.Matches(x => x.Single(y => y.Key == key && y.Value == value) != null)))
+                .MustHaveHappenedOnceExactly();
         }
 
         [Test, AutoData]
-        public void Get_ExistingSetting_ReturnValue(IEnumerable<SettingsEntry> sampleData)
+        public void Get_ExistingSetting_ReturnValue(IEnumerable<UserSettingsEntry> sampleData)
         {
             // arrange
             var userSettingsPersistenceServiceStub = A.Fake<IUserSettingsPersistenceService>();
@@ -97,7 +95,7 @@
         {
             // arrange
             var userSettingsPersistenceServiceMock = A.Fake<IUserSettingsPersistenceService>();
-            A.CallTo(() => userSettingsPersistenceServiceMock.Load()).Returns(new List<SettingsEntry>());
+            A.CallTo(() => userSettingsPersistenceServiceMock.Load()).Returns(new List<UserSettingsEntry>());
 
             var sut = new UserSettingsRepository(userSettingsPersistenceServiceMock);
             sut.Get("NOT_EXISTING_KEY");
@@ -111,7 +109,7 @@
         {
             // arrange
             var userSettingsPersistenceServiceStub = A.Fake<IUserSettingsPersistenceService>();
-            A.CallTo(() => userSettingsPersistenceServiceStub.Load()).Returns(new List<SettingsEntry>());
+            A.CallTo(() => userSettingsPersistenceServiceStub.Load()).Returns(new List<UserSettingsEntry>());
 
             var sut = new UserSettingsRepository(userSettingsPersistenceServiceStub);
 

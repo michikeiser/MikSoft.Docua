@@ -2,8 +2,6 @@
 {
     using System;
 
-    using MikSoft.Docua.Common.Interfaces;
-
     public class GlobalGlobalSettingsRepository : IGlobalSettingsRepository
     {
         public GlobalGlobalSettingsRepository()

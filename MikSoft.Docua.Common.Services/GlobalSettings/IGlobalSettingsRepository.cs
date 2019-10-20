@@ -1,4 +1,4 @@
-﻿namespace MikSoft.Docua.Common.Interfaces
+﻿namespace MikSoft.Docua.Common.Services.GlobalSettings
 {
     public interface IGlobalSettingsRepository
     {

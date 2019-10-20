@@ -7,8 +7,6 @@
 
     using MikSoft.Docua.Common.Data.FileSystem.Helper;
     using MikSoft.Docua.Common.Data.FileSystem.UserSettings.XmlNodes;
-    using MikSoft.Docua.Common.Interfaces;
-    using MikSoft.Docua.Common.Models;
 
     internal class UserSettingsPersistenceService : IUserSettingsPersistenceService
     {
@@ -26,7 +24,7 @@
             _userSettingConverter = userSettingConverter;
         }
 
-        public IEnumerable<SettingsEntry> Load()
+        public IEnumerable<UserSettingsEntry> Load()
         {
             var userSettingsPath = GetUserSettingsPath();
             var userSettingsFilePath = GetUserSettingsFilePath(userSettingsPath);
@@ -40,10 +38,10 @@
                 return settingsEntries;
             }
 
-            return new List<SettingsEntry>();
+            return new List<UserSettingsEntry>();
         }
 
-        public void Save(IEnumerable<SettingsEntry> payload)
+        public void Save(IEnumerable<UserSettingsEntry> payload)
         {
             var userSettingsPath = GetUserSettingsPath();
 
