@@ -14,9 +14,13 @@ dotnet_csproj:
 before_build:
 - cmd: nuget restore
 - cmd: dotnet tool install -g dotnet-sonarscanner
-- cmd: dotnet sonarscanner begin /k:"michikeiser_MikSoft.Docua" /o:"michikeiser" /v:%APPVEYOR_BUILD_VERSION% /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="8a5532084a44050c55730e37a200ab749cf3ed79" /d:sonar.language="cs" /d:sonar.exclusions="**/bin/**/*,**/obj/**/*" /d:sonar.cs.opencover.reportsPaths="lcov.opencover.xml"
+- cmd: dotnet sonarscanner begin /k:"michikeiser_MikSoft.Docua" /o:"michikeiser" /v:%APPVEYOR_BUILD_VERSION% /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="8a5532084a44050c55730e37a200ab749cf3ed79" /d:sonar.language="cs" /d:sonar.exclusions="**/bin/**/*,**/obj/**/*" /d:sonar.cs.opencover.reportsPaths="CoverageResults\coverage.opencover.xml"
 build_script:
 - cmd: dotnet build MikSoft.Docua.sln
-- cmd: dotnet test MikSoft.Docua.Common.Services.UnitTests\MikSoft.Docua.Common.Services.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../lcov
+- cmd: dotnet test MikSoft.Docua.Client.UnitTests\MikSoft.Docua.Client.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutput="../CoverageResults/" 
+- cmd: dotnet test MikSoft.Docua.Common.Data.UnitTests\MikSoft.Docua.Common.Data.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutput="../CoverageResults/" /p:MergeWith="../CoverageResults/coverage.json"  
+- cmd: dotnet test MikSoft.Docua.Common.Services.UnitTests\MikSoft.Docua.Common.Services.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutput="../CoverageResults/" /p:MergeWith="../CoverageResults/coverage.json"  
+- cmd: dotnet test MikSoft.Docua.Common.UnitTests\MikSoft.Docua.Common.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutput="../CoverageResults/" /p:MergeWith="../CoverageResults/coverage.json" /p:CoverletOutputFormat=opencover 
+
 after_build:
 - cmd: dotnet sonarscanner end /d:sonar.login="8a5532084a44050c55730e37a200ab749cf3ed79"
