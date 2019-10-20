@@ -1,7 +1,6 @@
 ﻿namespace MikSoft.Docua.Common.Data.FileSystem.GlobalSettings
 {
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
 
     using MikSoft.Docua.Common.Data.FileSystem.GlobalSettings.XmlNodes;
