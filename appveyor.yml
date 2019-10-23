@@ -14,7 +14,7 @@ dotnet_csproj:
 before_build:
 - cmd: nuget restore
 - cmd: dotnet tool install -g dotnet-sonarscanner
-- cmd: dotnet sonarscanner begin /k:"michikeiser_MikSoft.Docua" /o:"michikeiser" /v:%APPVEYOR_BUILD_VERSION% /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="8a5532084a44050c55730e37a200ab749cf3ed79" /d:sonar.language="cs" /d:sonar.exclusions="**/bin/**/*,**/obj/**/*" /d:sonar.cs.opencover.reportsPaths="CoverageResults\coverage.opencover.xml"
+- cmd: dotnet sonarscanner begin /k:"michikeiser_MikSoft.Docua" /o:"michikeiser" /v:%APPVEYOR_BUILD_VERSION% /d:sonar.branch.name=%APPVEYOR_REPO_BRANCH% /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="8a5532084a44050c55730e37a200ab749cf3ed79" /d:sonar.language="cs" /d:sonar.exclusions="**/bin/**/*,**/obj/**/*" /d:sonar.cs.opencover.reportsPaths="CoverageResults\coverage.opencover.xml"
 build_script:
 - cmd: dotnet build MikSoft.Docua.sln
 - cmd: dotnet test MikSoft.Docua.Client.UnitTests\MikSoft.Docua.Client.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutput="../CoverageResults/" 
