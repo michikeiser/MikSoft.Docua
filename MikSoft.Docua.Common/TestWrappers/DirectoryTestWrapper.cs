@@ -15,5 +15,10 @@
         {
             return Directory.CreateDirectory(path);
         }
+
+        public virtual string[] GetFiles(string path)
+        {
+            return Directory.GetFiles(path);
+        }
     }
 }

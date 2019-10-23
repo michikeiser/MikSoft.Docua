@@ -20,5 +20,10 @@
         {
             File.WriteAllText(path, contents);
         }
+
+        public virtual void Delete(string path)
+        {
+            File.Delete(path);
+        }
     }
 }
