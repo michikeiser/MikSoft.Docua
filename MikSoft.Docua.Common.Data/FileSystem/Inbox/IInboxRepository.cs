@@ -11,7 +11,7 @@
 
         IEnumerable<string> GetAll();
 
-        void Remove(string inboxItem);
+        void Remove(string inboxPath);
 
         void Stop();
     }

@@ -42,9 +42,9 @@
             return _lastScan;
         }
 
-        public void Remove(string file)
+        public void Remove(string inboxPath)
         {
-            FileTestWrapper.Delete(file);
+            FileTestWrapper.Delete(inboxPath);
         }
 
         public void Stop()
