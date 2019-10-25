@@ -93,7 +93,7 @@
             var result = sut.Load();
 
             // assert
-            A.CallTo(() => xmlSerializerHelper.GetObject<DocuaUserSettingItems>(A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => xmlSerializerHelper.Deserialize<DocuaUserSettingItems>(A<string>.Ignored)).MustHaveHappenedOnceExactly();
         }
 
         [Test, AutoData]

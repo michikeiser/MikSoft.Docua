@@ -45,7 +45,7 @@
             if (FileTestWrapper.Exists(userSettingsFilePath))
             {
                 var content = FileTestWrapper.ReadAllText(userSettingsFilePath);
-                var userSettings = _xmlSerializerHelper.GetObject<DocuaUserSettingItems>(content);
+                var userSettings = _xmlSerializerHelper.Deserialize<DocuaUserSettingItems>(content);
 
                 var settingsEntries = _userSettingConverter.ToSettingsEntries(userSettings.UserSettingItems).ToList();
                 return settingsEntries;
@@ -69,7 +69,7 @@
                                                 UserSettingItems = docuaUserSettings
                                             };
 
-            var str = _xmlSerializerHelper.GetString(docuaUserSettingItems);
+            var str = _xmlSerializerHelper.Serialize(docuaUserSettingItems);
 
             var userSettingsFilePath = GetUserSettingsFilePath(userSettingsPath);
             FileTestWrapper.WriteAllText(userSettingsFilePath, str);

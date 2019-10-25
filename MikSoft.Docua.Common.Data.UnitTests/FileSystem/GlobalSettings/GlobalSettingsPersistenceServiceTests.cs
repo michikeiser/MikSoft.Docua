@@ -93,7 +93,7 @@
             var result = sut.Load(path);
 
             // assert
-            A.CallTo(() => xmlSerializerHelper.GetObject<DocuaGlobalSettingItems>(A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => xmlSerializerHelper.Deserialize<DocuaGlobalSettingItems>(A<string>.Ignored)).MustHaveHappenedOnceExactly();
         }
 
         [Test, AutoData]
