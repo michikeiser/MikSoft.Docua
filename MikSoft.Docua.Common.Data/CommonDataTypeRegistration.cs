@@ -4,6 +4,7 @@
 
     using DryIoc;
 
+    using MikSoft.Docua.Common.Data.FileSystem.Common;
     using MikSoft.Docua.Common.Data.FileSystem.GlobalSettings;
     using MikSoft.Docua.Common.Data.FileSystem.Helper;
     using MikSoft.Docua.Common.Data.FileSystem.Inbox;
@@ -17,7 +18,7 @@
         {
             registrator.Register<IUserSettingsPersistenceService, UserSettingsPersistenceService>();
             registrator.Register<IGlobalSettingsPersistenceService, GlobalSettingsPersistenceService>();
-            registrator.Register<IInboxRepository, InboxRepository>();
+            registrator.Register<IRepository<InboxEntry>, InboxRepository>();
 
             registrator.Register<XmlSerializerHelper>();
         }

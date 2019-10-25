@@ -1,12 +1,15 @@
 ﻿namespace MikSoft.Docua.Common.Data.UnitTests.FileSystem.Inbox
 {
     using System;
+    using System.IO;
+    using System.Linq;
     using System.Threading;
 
     using AutoFixture.NUnit3;
 
     using FakeItEasy;
 
+    using MikSoft.Docua.Common.Data.FileSystem.Common;
     using MikSoft.Docua.Common.Data.FileSystem.Inbox;
     using MikSoft.Docua.Common.TestWrappers;
 
@@ -16,29 +19,32 @@
     internal class InboxRepositoryTests
     {
         [Test, AutoData]
-        public void GetAll_AddFiles_ReturnPaths(string path, string[] files)
+        public void GetAll_AddFiles_ReturnPaths(string path, string searchPattern, SearchOption searchOption, string[] files)
         {
             // arrange
             var directoryTestWrapper = A.Fake<DirectoryTestWrapper>();
-            A.CallTo(() => directoryTestWrapper.GetFiles(path)).Returns(files);
+            A.CallTo(() => directoryTestWrapper.GetFiles(path, searchPattern, searchOption)).Returns(files);
+
+            var fileTestWrapper = A.Fake<FileTestWrapper>();
 
             var sut = new InboxRepository
                           {
-                              DirectoryTestWrapper = directoryTestWrapper
+                              DirectoryTestWrapper = directoryTestWrapper,
+                              FileTestWrapper = fileTestWrapper
                           };
 
-            sut.Start(path);
-            sut.Stop();
+            sut.StartMonitoring(path, searchPattern, searchOption);
+            sut.StopMonitoring();
 
             // act
-            var result = sut.GetAll();
+            var result = sut.GetAll().Select(x => x.FileName);
 
             // assert
             Assert.That(result, Is.EquivalentTo(files));
         }
 
         [Test, AutoData]
-        public void Remove_DeleteFile_CallDelete(string path)
+        public void Remove_DeleteFile_CallDelete(InboxEntry inboxEntry)
         {
             // arrange
             var fileTestWrapper = A.Fake<FileTestWrapper>();
@@ -48,74 +54,85 @@
                           };
 
             // act
-            sut.Remove(path);
+            sut.Remove(inboxEntry);
 
             // assert
-            A.CallTo(() => fileTestWrapper.Delete(path)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fileTestWrapper.Delete(inboxEntry.FileName)).MustHaveHappenedOnceExactly();
         }
 
         [Test, AutoData]
-        public void RepositoryChanged_AddFiles_ExecuteEvent(string path, string[] files)
+        public void RepositoryChanged_AddFiles_ExecuteEvent(string path, string searchPattern, SearchOption searchOption, string[] files)
         {
             // arrange
             var directoryTestWrapper = A.Fake<DirectoryTestWrapper>();
-            A.CallTo(() => directoryTestWrapper.GetFiles(path)).Returns(files);
+            A.CallTo(() => directoryTestWrapper.GetFiles(path, searchPattern, searchOption)).Returns(files);
 
-            var eventHandler = A.Fake<EventHandler<InboxEventArgs>>();
+            var fileTestWrapper = A.Fake<FileTestWrapper>();
+
+            var eventHandler = A.Fake<EventHandler<RepositoryChangedEventArgs<InboxEntry>>>();
 
             var sut = new InboxRepository
                           {
-                              DirectoryTestWrapper = directoryTestWrapper
+                              DirectoryTestWrapper = directoryTestWrapper,
+                              FileTestWrapper = fileTestWrapper
                           };
 
             sut.RepositoryChanged += eventHandler;
 
             // act
-            sut.Start(path);
-            sut.Stop();
+            sut.StartMonitoring(path, searchPattern, searchOption);
+            sut.StopMonitoring();
 
             // assert
             // Check if event is raised
-            A.CallTo(() => eventHandler.Invoke(A<object>._, A<InboxEventArgs>.That.Matches(x => x.Action == InboxEventArgs.FileAction.Add)))
-                .MustHaveHappened();
+            A.CallTo(
+                () => eventHandler.Invoke(
+                    A<object>._,
+                    A<RepositoryChangedEventArgs<InboxEntry>>.That.Matches(
+                        x => x.Action == RepositoryChangedEventArgs<InboxEntry>.RepositoryAction.Add))).MustHaveHappened();
         }
 
         [Test, AutoData]
-        public void RepositoryChanged_RemoveFiles_ExecuteEvent(string path, string[] files)
+        public void RepositoryChanged_RemoveFiles_ExecuteEvent(string path, string searchPattern, SearchOption searchOption, string[] files)
         {
             // arrange
             var directoryTestWrapper = A.Fake<DirectoryTestWrapper>();
-            A.CallTo(() => directoryTestWrapper.GetFiles(path)).Returns(files);
+            A.CallTo(() => directoryTestWrapper.GetFiles(path, searchPattern, searchOption)).Returns(files);
 
-            var eventHandler = A.Fake<EventHandler<InboxEventArgs>>();
+            var fileTestWrapper = A.Fake<FileTestWrapper>();
+
+            var eventHandler = A.Fake<EventHandler<RepositoryChangedEventArgs<InboxEntry>>>();
 
             var sut = new InboxRepository
                           {
-                              DirectoryTestWrapper = directoryTestWrapper
+                              DirectoryTestWrapper = directoryTestWrapper,
+                              FileTestWrapper = fileTestWrapper
                           };
 
             sut.RepositoryChanged += eventHandler;
 
-            sut.Start(path);
-            sut.Stop();
-            A.CallTo(() => directoryTestWrapper.GetFiles(path)).Returns(
+            sut.StartMonitoring(path, searchPattern, searchOption);
+            sut.StopMonitoring();
+            A.CallTo(() => directoryTestWrapper.GetFiles(path, searchPattern, searchOption)).Returns(
                 new[]
                     {
                         files[0]
                     });
 
             // act
-            sut.Start(path);
-            sut.Stop();
+            sut.StartMonitoring(path, searchPattern, searchOption);
+            sut.StopMonitoring();
 
             // assert
-            // Check if event is raised
-            A.CallTo(() => eventHandler.Invoke(A<object>._, A<InboxEventArgs>.That.Matches(x => x.Action == InboxEventArgs.FileAction.Remove)))
-                .MustHaveHappened();
+            A.CallTo(
+                () => eventHandler.Invoke(
+                    A<object>._,
+                    A<RepositoryChangedEventArgs<InboxEntry>>.That.Matches(
+                        x => x.Action == RepositoryChangedEventArgs<InboxEntry>.RepositoryAction.Remove))).MustHaveHappened();
         }
 
         [Test, AutoData]
-        public void Start_StartupBehavior_CallsGetFiles(string path)
+        public void Start_StartupBehavior_CallsGetFiles(string path, string searchPattern, SearchOption searchOption)
         {
             // arrange
             var directoryTestWrapper = A.Fake<DirectoryTestWrapper>();
@@ -125,44 +142,48 @@
                           };
 
             // act
-            sut.Start(path);
-            sut.Stop();
+            sut.StartMonitoring(path, searchPattern, searchOption);
+            sut.StopMonitoring();
 
             // assert
-            A.CallTo(() => directoryTestWrapper.GetFiles(path)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => directoryTestWrapper.GetFiles(path, searchPattern, searchOption)).MustHaveHappenedOnceExactly();
         }
 
         [Test, AutoData]
-        public void Start_Timer_CheckTimerElapsed(string path, string file)
+        public void Start_Timer_CheckTimerElapsed(string path, string searchPattern, SearchOption searchOption, string file)
         {
             // arrange
             var directoryTestWrapper = A.Fake<DirectoryTestWrapper>();
-            A.CallTo(() => directoryTestWrapper.GetFiles(path)).Returns(
+            A.CallTo(() => directoryTestWrapper.GetFiles(path, searchPattern, searchOption)).Returns(
                 new[]
                     {
                         file
                     });
 
-            var eventHandler = A.Fake<EventHandler<InboxEventArgs>>();
+            var fileTestWrapper = A.Fake<FileTestWrapper>();
 
             var sut = new InboxRepository
                           {
-                              DirectoryTestWrapper = directoryTestWrapper
+                              DirectoryTestWrapper = directoryTestWrapper,
+                              FileTestWrapper = fileTestWrapper
                           };
 
+            var eventHandler = A.Fake<EventHandler<RepositoryChangedEventArgs<InboxEntry>>>();
             sut.RepositoryChanged += eventHandler;
 
             // act
-            sut.Start(path);
+            sut.StartMonitoring(path, searchPattern, searchOption, 200);
 
-            A.CallTo(() => directoryTestWrapper.GetFiles(path)).Returns(new string[0]);
-            Thread.Sleep(6000);
-            sut.Stop();
+            A.CallTo(() => directoryTestWrapper.GetFiles(path, searchPattern, searchOption)).Returns(new string[0]);
+            Thread.Sleep(250);
+            sut.StopMonitoring();
 
             // assert
-            // Check if event is raised
-            A.CallTo(() => eventHandler.Invoke(A<object>._, A<InboxEventArgs>.That.Matches(x => x.Action == InboxEventArgs.FileAction.Remove)))
-                .MustHaveHappenedOnceExactly();
+            A.CallTo(
+                () => eventHandler.Invoke(
+                    A<object>._,
+                    A<RepositoryChangedEventArgs<InboxEntry>>.That.Matches(
+                        x => x.Action == RepositoryChangedEventArgs<InboxEntry>.RepositoryAction.Remove))).MustHaveHappenedOnceExactly();
         }
     }
 }

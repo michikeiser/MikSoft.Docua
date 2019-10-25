@@ -16,9 +16,9 @@
             return Directory.CreateDirectory(path);
         }
 
-        public virtual string[] GetFiles(string path)
+        public virtual string[] GetFiles(string path, string searchPattern, SearchOption searchOption)
         {
-            return Directory.GetFiles(path);
+            return Directory.GetFiles(path, searchPattern, searchOption);
         }
     }
 }

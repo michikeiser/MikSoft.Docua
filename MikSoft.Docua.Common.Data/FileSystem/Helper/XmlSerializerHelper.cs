@@ -6,7 +6,7 @@
 
     internal class XmlSerializerHelper
     {
-        public virtual string GetString<T>(T obj)
+        public virtual string Serialize<T>(T obj)
         {
             var xmlSerializer = new XmlSerializer(typeof(T));
 
@@ -17,7 +17,7 @@
             }
         }
 
-        public virtual T GetObject<T>(string str)
+        public virtual T Deserialize<T>(string str)
         {
             var xmlSerializer = new XmlSerializer(typeof(T));
 

@@ -38,7 +38,7 @@
             if (FileTestWrapper.Exists(globalSettingsPath))
             {
                 var content = FileTestWrapper.ReadAllText(globalSettingsPath);
-                var globalSettingItems = _xmlSerializerHelper.GetObject<DocuaGlobalSettingItems>(content);
+                var globalSettingItems = _xmlSerializerHelper.Deserialize<DocuaGlobalSettingItems>(content);
                 var globalSettingsEntries = _globalSettingConverter.ToSettingsEntries(globalSettingItems.GlobalSettingItems);
                 return globalSettingsEntries;
             }
@@ -61,7 +61,7 @@
                                                   GlobalSettingItems = docuaGlobalSettings
                                               };
 
-            var str = _xmlSerializerHelper.GetString(docuaGlobalSettingItems);
+            var str = _xmlSerializerHelper.Serialize(docuaGlobalSettingItems);
 
             FileTestWrapper.WriteAllText(globalSettingsPath, str);
         }

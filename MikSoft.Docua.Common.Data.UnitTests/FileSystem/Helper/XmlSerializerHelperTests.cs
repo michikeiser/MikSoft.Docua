@@ -17,10 +17,10 @@
         {
             // arrange
             var sut = new XmlSerializerHelper();
-            var str = sut.GetString(objectToSerialize);
+            var str = sut.Serialize(objectToSerialize);
 
             // act
-            var docuaUserSettingItems = sut.GetObject<DocuaUserSettingItems>(str);
+            var docuaUserSettingItems = sut.Deserialize<DocuaUserSettingItems>(str);
 
             // assert
             Assert.That(docuaUserSettingItems, Is.Not.Null);
@@ -33,7 +33,7 @@
             var sut = new XmlSerializerHelper();
 
             // act
-            var str = sut.GetString(objectToSerialize);
+            var str = sut.Serialize(objectToSerialize);
 
             // assert
             Assert.That(str, Is.Not.Empty);
