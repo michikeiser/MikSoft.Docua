@@ -9,12 +9,9 @@
             // do nothing
         }
 
-        protected override InboxEntry CreateEntry(string file)
+        protected override InboxEntry CreateEntry(string content)
         {
-            return new InboxEntry
-                       {
-                           FileName = file
-                       };
+            return new InboxEntry();
         }
     }
 }
